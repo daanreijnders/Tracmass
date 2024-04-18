@@ -60,10 +60,18 @@ MODULE mod_getfile
           IF (inday<10) WRITE(timestamp_yyyymmdd(7:8),'(A1,I1)') '0',inday
 
           ! Filled with calendar
-          ichar = INDEX(filledFileName,'YYYYMMDD')
+         !  ichar = INDEX(filledFileName,'YYYYMMDD')
+         !  DO WHILE (ichar /= 0)
+         !      filledFileName = TRIM(filledFileName(:ichar-1))//TRIM(timestamp_yyyymmdd)//TRIM(filledFileName(ichar+8:))
+         !      ichar = INDEX(filledFileName,'YYYYMMDD')
+         !  END DO
+          ! Filled with calendar (includes '-')
+          ichar = INDEX(filledFileName,'YYYY-MM-DD')
           DO WHILE (ichar /= 0)
-              filledFileName = TRIM(filledFileName(:ichar-1))//TRIM(timestamp_yyyymmdd)//TRIM(filledFileName(ichar+8:))
-              ichar = INDEX(filledFileName,'YYYYMMDD')
+              filledFileName = TRIM(filledFileName(:ichar-1)) // TRIM(timestamp_yyyymmdd(1:4)) // '-' // &
+                               TRIM(timestamp_yyyymmdd(5:6)) // '-' // TRIM(timestamp_yyyymmdd(7:8)) // &
+                               TRIM(filledFileName(ichar+10:))
+             ichar = INDEX(filledFileName,'YYYY-MM-DD')
           END DO
 
           ! Filled with years
