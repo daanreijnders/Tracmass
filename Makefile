@@ -5,13 +5,14 @@
 # Project and case definition
 PROJECT	          = Theoretical
 CASE              = Theoretical
-RUNFILE 	        = runtracmass
-ARCH              =
-NETCDFLIBS        = none
+RUNFILE 	      = runtracmass
+ARCH              = lorenz
+NETCDFLIBS        = automatic-44
 #================================================================
 
 # Possible architectures:
 # tetralith    (Swedish HPC with intel)
+# lorenz       (Utrecht HPC with intel)
 
 # Possible netCDF settings:
 # automatic    (set by nc-config)
@@ -65,7 +66,9 @@ endif
 ifeq ($(ARCH),tetralith)
 FC = ifort
 FF = -g -O3 -traceback -pg
-
+else ifeq ($(ARCH),lorenz)
+FC = ifort
+FF = -g -O3 -traceback -pg
 else
 FC = gfortran
 FF = -g -O3 -fbacktrace -fbounds-check -Wall -Wno-maybe-uninitialized -Wno-unused-dummy-argument
